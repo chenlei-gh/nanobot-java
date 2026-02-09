@@ -1,0 +1,43 @@
+{
+    "name": "Nanobot Java",
+    "image": "mcr.microsoft.com/devcontainers/java:21-bookworm",
+    "features": {
+        "ghcr.io/devcontainers/features/java:1": {
+            "version": "none",
+            "installMaven": "true",
+            "installGradle": "true"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "vscjava.vscode-java-pack",
+                "redhat.java",
+                "vscjava.vscode-java-debug",
+                "vscjava.vscode-java-test",
+                "springroll.spring-boot-support",
+                "vmware.vscode-spring-boot"
+            ],
+            "settings": {
+                "java.import.gradle.enabled": true,
+                "java.import.maven.enabled": true,
+                "java.configuration.updateBuildConfiguration": "automatic"
+            }
+        }
+    },
+    "postCreateCommand": "mvn clean package -DskipTests -q",
+    "remoteUser": "vscode",
+    "portsAttributes": [
+        {
+            "port": 8080,
+            "label": "Nanobot Web UI",
+            "onAutoForward": "notify"
+        }
+    ],
+    "forwardPorts": [8080],
+    "postAttachCommand": {
+        "vscode": {
+            "command": "echo 'Nanobot Java is ready!' && java -version"
+        }
+    }
+}

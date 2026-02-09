@@ -1,0 +1,45 @@
+# Nanobot Configuration Example
+# Set your API key: export OPENAI_API_KEY=sk-...
+
+agents:
+  defaults:
+    model: gpt-4
+    maxIterations: 20
+    maxToolIterations: 10
+
+  agents:
+    assistant:
+      name: "Nanobot Assistant"
+      model: gpt-4
+      mcpServers: []
+      tools:
+        - read_file
+        - write_file
+        - bash
+        - web_fetch
+
+    coder:
+      name: "Coding Assistant"
+      model: gpt-4
+      tools:
+        - read_file
+        - write_file
+        - bash
+
+# MCP Server Configuration (optional)
+mcpServers:
+  # example:
+  #   url: https://example.com/mcp
+  #   headers:
+  #     Authorization: Bearer ${API_TOKEN}
+
+# Tools Configuration
+tools:
+  web:
+    search:
+      api_key: ${BRAVE_SEARCH_API_KEY}
+      api_base: https://api.search.brave.com
+
+# Paths
+workspace: ~/.nanobot/workspace
+data: ~/.nanobot/data
