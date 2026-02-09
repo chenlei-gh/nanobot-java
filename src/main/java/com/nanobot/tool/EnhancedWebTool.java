@@ -131,7 +131,7 @@ public class EnhancedWebTool {
                     sb.append(String.format("%d. %s\n", resultNum++, title));
                     sb.append(String.format("   URL: %s\n", url));
                     if (desc != null && !desc.isEmpty()) {
-                        sb.append(String.format("   %s\n", desc.substring(0, Math.min(200, desc.length())));
+                        sb.append(String.format("   %s\n", desc.substring(0, Math.min(200, desc.length()))));
                     }
                     sb.append("\n");
 

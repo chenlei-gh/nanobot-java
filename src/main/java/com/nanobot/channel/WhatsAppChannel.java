@@ -331,7 +331,7 @@ public class WhatsAppChannel implements Channel {
 
         Map<String, Object> header = new HashMap<>();
         header.put("type", "text");
-        header.put("text", text.substring(0, Math.min(20, text.length()));
+        header.put("text", text.substring(0, Math.min(20, text.length())));
         interactive.put("header", header);
 
         Map<String, Object> body = new HashMap<>();
