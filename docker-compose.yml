@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  nanobot:
+    build: .
+    container_name: nanobot-java
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - BRAVE_SEARCH_API_KEY=${BRAVE_SEARCH_API_KEY}
+    volumes:
+      - ./workspace:/root/.nanobot/workspace
+      - ./data:/root/.nanobot/data
+      - ./nanobot.yaml:/app/nanobot.yaml
+    stdin_open: true
+    tty: true
+    restart: unless-stopped

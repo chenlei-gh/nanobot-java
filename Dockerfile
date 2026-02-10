@@ -1,39 +1,28 @@
-FROM eclipse-temurin:21-jdk-alpine AS builder
+# Nanobot Java - Docker 镜像
+FROM eclipse-temurin:21-jdk-alpine
 
-# Install Maven
+# 设置工作目录
+WORKDIR /app
+
+# 安装 Maven
 RUN apk add --no-cache maven
 
-# Set working directory
-WORKDIR /app
+# 复制项目文件
+COPY pom.xml .
+COPY src ./src
 
-# Copy source code
-COPY . .
+# 编译项目
+RUN mvn clean package -DskipTests
 
-# Build the project
-RUN mvn clean package -DskipTests -q
+# 创建工作目录
+RUN mkdir -p /root/.nanobot/workspace /root/.nanobot/data
 
-# Runtime stage
-FROM eclipse-temurin:21-jre-alpine
-
-# Install runtime dependencies
-RUN apk add --no-cache bash curl jq
-
-# Create non-root user
-RUN addgroup -S nanobot && adduser -S nanobot -G nanobot
-USER nanobot
-
-# Copy built artifact
-COPY --from=builder /app/target/nanobot-*.jar /app/nanobot.jar
-
-# Set working directory
-WORKDIR /app
-
-# Expose port
+# 暴露端口（如果需要 API 服务）
 EXPOSE 8080
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
+# 设置环境变量
+ENV JAVA_OPTS="-Xmx512m -Xms256m"
 
-# Default command
-CMD ["java", "-jar", "/app/nanobot.jar"]
+# 启动命令
+ENTRYPOINT ["java", "-jar", "target/nanobot-1.0.0.jar"]
+CMD []

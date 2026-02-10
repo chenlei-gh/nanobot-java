@@ -1,218 +1,351 @@
-# 🚀 Nanobot Java - High-Performance AI Agent
+# 🤖 Nanobot Java - 智能 AI 助手
 
-**Java 21 + Virtual Threads Implementation**
+<div align="center">
 
 [![Java 21](https://img.shields.io/badge/Java-21-blue.svg)](https://adoptium.net)
 [![Maven](https://img.shields.io/badge/Maven-3.9-green.svg)](https://maven.apache.org)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-## ✨ 一键启动 (GitHub Codespaces)
+**基于 Java 21 虚拟线程的高性能 AI Agent**
 
-### 方式1: 直接访问 🔥
+[快速开始](#-快速开始) • [功能特性](#-功能特性) • [使用指南](#-使用指南) • [常见问题](#-常见问题)
+
+</div>
+
+---
+
+## 📖 简介
+
+Nanobot Java 是一个轻量级、高性能的 AI 助手，支持多种 AI 模型（OpenAI、Claude、DeepSeek 等），可以帮你完成文件操作、代码编写、网页搜索等各种任务。
+
+### ✨ 主要特点
+
+- 🚀 **一键启动** - 无需复杂配置，开箱即用
+- 🔥 **高性能** - 基于 Java 21 虚拟线程，支持高并发
+- 🤖 **多模型支持** - OpenAI、Anthropic、DeepSeek、Qwen、Gemini
+- 🛠️ **丰富工具** - 文件操作、Shell 命令、网页搜索
+- 💬 **多种交互方式** - CLI、Telegram、WhatsApp
+- 🔌 **易于扩展** - 简单的插件系统
+
+---
+
+## 🚀 快速开始
+
+### 方式一：一键启动（推荐）
+
+#### 1. 克隆项目
+```bash
+git clone https://github.com/chenlei-gh/nanobot-java.git
+cd nanobot-java
 ```
-https://github.com/codespaces/new?repo=你的用户名/nanobot-java&ref=main&machine=standardLinux
+
+#### 2. 运行设置向导
+```bash
+# Linux/Mac
+./setup.sh
+
+# Windows
+setup.bat
 ```
 
-### 方式2: GitHub页面启动
-1. 访问你的GitHub仓库页面
-2. 点击 **"Code"** 按钮
-3. 选择 **"Codespaces"** → **"Create codespace"**
+#### 3. 启动 Nanobot
+```bash
+# Linux/Mac
+./start.sh
 
-### 方式3: 使用这个一键链接
-访问: https://github.com/features/codespaces
+# Windows
+start.bat
+```
 
-## 📋 在Codespaces中运行
+就这么简单！🎉
 
-打开终端(Terminal)执行：
+### 方式二：Docker 部署
 
 ```bash
-# 1. 构建项目
-mvn clean package -DskipTests
+# 1. 设置环境变量
+export OPENAI_API_KEY=sk-your-key-here
 
-# 2. 设置API密钥
+# 2. 启动容器
+docker-compose up -d
+
+# 3. 进入交互模式
+docker exec -it nanobot-java java -jar target/nanobot-1.0.0.jar
+```
+
+### 方式三：手动部署
+
+```bash
+# 1. 确保已安装 Java 21+ 和 Maven 3.9+
+java -version
+mvn -version
+
+# 2. 设置 API 密钥
 export OPENAI_API_KEY=sk-your-key-here
 # 或
 export ANTHROPIC_API_KEY=sk-ant-your-key-here
 
-# 3. 交互模式运行
+# 3. 编译项目
+mvn clean package -DskipTests
+
+# 4. 运行
 java -jar target/nanobot-1.0.0.jar
-
-# 4. 或发送单条消息
-java -jar target/nanobot-1.0.0.jar agent "你好，帮我写个Python脚本"
-
-# 5. 查看帮助
-java -jar target/nanobot-1.0.0.jar help
 ```
+
+---
 
 ## 🎯 功能特性
 
-| 类别 | 功能 |
+### 核心功能
+
+| 功能 | 说明 |
 |------|------|
-| **核心引擎** | AgentLoop, MessageBus, ContextManager |
-| **LLM提供商** | OpenAI, Anthropic, DeepSeek, Qwen, Gemini |
-| **工具系统** | 文件操作, Shell命令, Web搜索/抓取 |
-| **通信通道** | CLI, Telegram, WhatsApp |
-| **高级特性** | 子Agent管理, 推理跟踪, 流式响应, Token计算 |
-| **系统功能** | Cron调度, 技能系统, 热加载, 事件总线 |
+| 💬 **智能对话** | 支持多轮对话，理解上下文 |
+| 📁 **文件操作** | 读取、写入、编辑文件 |
+| 🖥️ **命令执行** | 执行 Shell 命令 |
+| 🌐 **网页搜索** | 搜索和抓取网页内容 |
+| 🔄 **流式响应** | 实时显示 AI 回复 |
+| 📊 **Token 统计** | 实时统计 Token 使用量 |
 
-## Configuration
+### 支持的 AI 模型
 
-Create a `nanobot.yaml` file:
+- **OpenAI**: GPT-4, GPT-4 Turbo, GPT-3.5 Turbo
+- **Anthropic**: Claude 3.5 Sonnet, Claude 3 Opus
+- **DeepSeek**: DeepSeek Chat
+- **Qwen**: 通义千问
+- **Gemini**: Google Gemini
+
+---
+
+## 📚 使用指南
+
+### 基本使用
+
+#### 交互模式
+```bash
+./start.sh
+```
+
+进入交互模式后，直接输入你的问题：
+```
+nanobot> 帮我写一个 Python 脚本，读取 CSV 文件并统计数据
+nanobot> 查看当前目录下的所有文件
+nanobot> 搜索最新的 AI 新闻
+```
+
+#### 单次命令模式
+```bash
+./start.sh agent "帮我写一个 Hello World 程序"
+```
+
+### 内置命令
+
+在交互模式下，你可以使用以下命令：
+
+| 命令 | 说明 |
+|------|------|
+| `/help` | 显示帮助信息 |
+| `/exit` | 退出程序 |
+| `/clear` | 清屏 |
+| `/stats` | 显示统计信息 |
+| `/tools` | 列出可用工具 |
+| `/sessions` | 列出会话 |
+| `/reset` | 清除会话历史 |
+
+### 配置文件
+
+创建 `nanobot.yaml` 文件来自定义配置：
 
 ```yaml
 agents:
   defaults:
-    model: gpt-4
-    maxIterations: 20
+    model: gpt-4              # 默认模型
+    maxIterations: 20         # 最大迭代次数
+    temperature: 0.7          # 温度参数
 
   agents:
     assistant:
-      name: "My Assistant"
+      name: "我的助手"
       model: gpt-4
       tools:
-        - read_file
-        - write_file
-        - bash
-        - web_fetch
+        - read_file           # 读取文件
+        - write_file          # 写入文件
+        - shell               # 执行命令
+        - web_fetch           # 网页抓取
 
-workspace: ~/.nanobot/workspace
-data: ~/.nanobot/data
+workspace: ~/.nanobot/workspace  # 工作目录
+data: ~/.nanobot/data            # 数据目录
 ```
 
-## Environment Variables
+### 环境变量
 
-| Variable | Description |
-|----------|-------------|
-| `OPENAI_API_KEY` | OpenAI API key |
-| `ANTHROPIC_API_KEY` | Anthropic API key |
-| `BRAVE_SEARCH_API_KEY` | Brave Search API key (for web search) |
+| 变量名 | 说明 | 必需 |
+|--------|------|------|
+| `OPENAI_API_KEY` | OpenAI API 密钥 | 二选一 |
+| `ANTHROPIC_API_KEY` | Anthropic API 密钥 | 二选一 |
+| `BRAVE_SEARCH_API_KEY` | Brave 搜索 API 密钥 | 可选 |
 
-## Available Tools
+---
 
-| Tool | Description |
-|------|-------------|
-| `read_file` | Read file contents |
-| `write_file` | Write content to file |
-| `edit_file` | Replace text in file |
-| `list_dir` | List directory contents |
-| `bash` | Execute shell command |
-| `web_fetch` | Fetch URL content |
-| `web_search` | Search the web |
+## 💡 使用示例
 
-## CLI Commands
-
-| Command | Description |
-|---------|-------------|
-| `/help` | Show help |
-| `/exit` | Exit nanobot |
-| `/clear` | Clear screen |
-| `/stats` | Show statistics |
-| `/sessions` | List sessions |
-| `/tools` | List tools |
-| `/cron` | List cron jobs |
-| `/reset` | Clear sessions |
-
-## Architecture
-
+### 示例 1：文件操作
 ```
-┌─────────────────────────────────────────┐
-│            Nanobot Application           │
-├─────────────────────────────────────────┤
-│  ┌──────────┐  ┌──────────┐  ┌───────┐ │
-│  │  CLI     │  │   API    │  │ Web   │ │
-│  └────┬─────┘  └────┬─────┘  └───┬───┘ │
-│       │             │            │      │
-│       └──────────────┴────────────┘      │
-│                    │                    │
-│              ┌─────▼─────┐               │
-│              │ AgentLoop │               │
-│              └─────┬─────┘               │
-│                    │                     │
-│  ┌────────────────┼──────────────────┐  │
-│  │                │                  │  │
-│  ▼                ▼                  ▼  │
-│┌───────┐    ┌─────────┐    ┌──────────┐│
-││ Tools │    │ LLM Prov│    │ Channels ││
-│└───────┘    └─────────┘    └──────────┘│
-│                                             
-└─────────────────────────────────────────┘
+nanobot> 读取 README.md 文件的内容
+nanobot> 在 output.txt 中写入 "Hello, World!"
 ```
 
-## Virtual Threads Performance
+### 示例 2：代码编写
+```
+nanobot> 帮我写一个 Python 脚本，实现快速排序算法
+nanobot> 优化这段代码的性能
+```
 
-Nanobot leverages Java 21's virtual threads for high-concurrency processing:
+### 示例 3：数据分析
+```
+nanobot> 分析 data.csv 文件，统计各列的平均值
+nanobot> 生成一个数据可视化图表
+```
+
+### 示例 4：网页搜索
+```
+nanobot> 搜索最新的 AI 技术趋势
+nanobot> 获取 https://example.com 的内容
+```
+
+---
+
+## 🔧 高级功能
+
+### 添加自定义工具
 
 ```java
-// Message processing in virtual threads
-ExecutorService vtp = Executors.newVirtualThreadPerTaskExecutor();
-```
-
-This allows thousands of concurrent message processing operations with minimal memory overhead.
-
-## Extending Nanobot
-
-### Adding Tools
-
-```java
+// 在 ToolRegistry 中注册新工具
 registry.register(
     "my_tool",
-    "Description of my tool",
+    "我的自定义工具",
     Map.of(
-        "param1", new ToolParameter("string", "Parameter description", true)
+        "param1", new ToolParameter("string", "参数说明", true)
     ),
     true,
     (args, workspace) -> {
-        // Tool implementation
-        return "Result";
+        // 工具实现
+        return "执行结果";
     }
 );
 ```
 
-### Adding Channels
+### 定时任务
 
-```java
-public class MyChannel implements Channel {
-    // Implement Channel interface
-}
+```yaml
+cron:
+  jobs:
+    - name: "每日报告"
+      schedule: "0 9 * * *"  # 每天 9:00
+      message: "生成今日工作报告"
 ```
 
-## Project Structure
+---
+
+## ❓ 常见问题
+
+### Q: 如何获取 API 密钥？
+
+**OpenAI:**
+1. 访问 [OpenAI Platform](https://platform.openai.com)
+2. 注册/登录账号
+3. 进入 API Keys 页面创建密钥
+
+**Anthropic:**
+1. 访问 [Anthropic Console](https://console.anthropic.com)
+2. 注册/登录账号
+3. 创建 API 密钥
+
+### Q: 支持哪些操作系统？
+
+支持所有主流操作系统：
+- ✅ Linux
+- ✅ macOS
+- ✅ Windows
+- ✅ Docker
+
+### Q: 需要什么配置？
+
+最低配置：
+- Java 21+
+- 2GB RAM
+- 500MB 磁盘空间
+
+推荐配置：
+- Java 21+
+- 4GB RAM
+- 1GB 磁盘空间
+
+### Q: 如何更新到最新版本？
+
+```bash
+git pull origin main
+./start.sh
+```
+
+### Q: 遇到问题怎么办？
+
+1. 查看 [Issues](https://github.com/chenlei-gh/nanobot-java/issues)
+2. 提交新的 Issue
+3. 加入讨论组
+
+---
+
+## 📦 项目结构
 
 ```
-src/main/java/com/nanobot/
-├── NanobotApplication.java    # Spring Boot entry
-├── cli/
-│   └── NanobotCli.java        # Interactive CLI
-├── core/
-│   ├── AgentLoop.java        # Core agent logic
-│   ├── MessageBus.java      # Pub/sub messaging
-│   └── ContextManager.java  # Conversation context
-├── tool/
-│   ├── ToolRegistry.java    # Tool management
-│   ├── FileTool.java        # File operations
-│   ├── ShellTool.java       # Shell commands
-│   └── WebTool.java         # Web operations
-├── llm/
-│   ├── LlmProvider.java     # Provider interface
-│   ├── OpenAiProvider.java  # OpenAI implementation
-│   └── AnthropicProvider.java # Claude implementation
-├── config/
-│   ├── NanobotConfig.java   # Config model
-│   └── YamlConfigLoader.java # YAML parser
-├── cron/
-│   ├── CronService.java     # Job scheduling
-│   └── CronJob.java         # Job definition
-├── channel/
-│   └── Channel.java         # Channel interface
-└── skill/
-    ├── Skill.java           # Skill model
-    └── SkillLoader.java     # Skill loader
+nanobot-java/
+├── src/main/java/com/nanobot/
+│   ├── cli/              # 命令行界面
+│   ├── core/             # 核心引擎
+│   ├── tool/             # 工具系统
+│   ├── llm/              # LLM 提供商
+│   ├── channel/          # 通信通道
+│   ├── agent/            # Agent 管理
+│   └── config/           # 配置管理
+├── start.sh              # 启动脚本 (Linux/Mac)
+├── start.bat             # 启动脚本 (Windows)
+├── setup.sh              # 设置向导
+├── Dockerfile            # Docker 镜像
+├── docker-compose.yml    # Docker Compose 配置
+└── README.md             # 本文件
 ```
 
-## License
+---
 
-Apache License 2.0
+## 🤝 贡献
 
-## Credits
+欢迎贡献代码！请查看 [贡献指南](CONTRIBUTING.md)。
 
-Based on [HKUDS/nanobot](https://github.com/HKUDS/nanobot) - Ultra-lightweight AI Assistant
+---
+
+## 📄 许可证
+
+本项目采用 [Apache License 2.0](LICENSE) 许可证。
+
+---
+
+## 🙏 致谢
+
+基于 [HKUDS/nanobot](https://github.com/HKUDS/nanobot) 项目开发。
+
+---
+
+## 📞 联系方式
+
+- GitHub Issues: [提交问题](https://github.com/chenlei-gh/nanobot-java/issues)
+- Email: your-email@example.com
+
+---
+
+<div align="center">
+
+**如果这个项目对你有帮助，请给个 ⭐️ Star！**
+
+Made with ❤️ by Nanobot Team
+
+</div>
