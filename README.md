@@ -31,7 +31,29 @@ Nanobot Java 是一个轻量级、高性能的 AI 助手，支持多种 AI 模�
 
 ## 🚀 快速开始
 
-### 方式一：一键启动（推荐）
+### 方式一：一键安装（推荐）⚡
+
+只需一条命令，自动完成所有配置：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/chenlei-gh/nanobot-java/main/install.sh | bash
+```
+
+或者使用 wget：
+
+```bash
+wget -qO- https://raw.githubusercontent.com/chenlei-gh/nanobot-java/main/install.sh | bash
+```
+
+安装完成后，运行：
+
+```bash
+cd ~/nanobot-java && ./start.sh
+```
+
+就这么简单！🎉
+
+### 方式二：手动安装
 
 #### 1. 克隆项目
 ```bash
@@ -57,9 +79,7 @@ setup.bat
 start.bat
 ```
 
-就这么简单！🎉
-
-### 方式二：Docker 部署
+### 方式三：Docker 部署
 
 ```bash
 # 1. 设置环境变量
@@ -72,7 +92,7 @@ docker-compose up -d
 docker exec -it nanobot-java java -jar target/nanobot-1.0.0.jar
 ```
 
-### 方式三：手动部署
+### 方式四：完全手动部署
 
 ```bash
 # 1. 确保已安装 Java 21+ 和 Maven 3.9+
