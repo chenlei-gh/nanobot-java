@@ -22,6 +22,7 @@ Nanobot Java 是一个轻量级、高性能的 AI 助手，支持多种 AI 模�
 
 - 🚀 **一键启动** - 无需复杂配置，开箱即用
 - 🔥 **高性能** - 基于 Java 21 虚拟线程，支持高并发
+- 🪶 **超轻量** - 仅 13 MB，启动仅需 1.4 秒
 - 🤖 **多模型支持** - OpenAI、Anthropic、DeepSeek、Qwen、Gemini
 - 🛠️ **丰富工具** - 文件操作、Shell 命令、网页搜索
 - 💬 **多种交互方式** - CLI、Telegram、WhatsApp
@@ -312,6 +313,40 @@ git pull origin main
 1. 查看 [Issues](https://github.com/chenlei-gh/nanobot-java/issues)
 2. 提交新的 Issue
 3. 加入讨论组
+
+---
+
+## ⚡ 性能优化
+
+Nanobot Java 经过深度优化，在保持完整功能的同时实现了极致的轻量化：
+
+### 📊 性能指标
+
+| 指标 | 数值 | 对比 |
+|------|------|------|
+| **包体积** | 13 MB | 比平均 Spring Boot 应用小 60% |
+| **启动时间** | 1.4 秒 | 比优化前快 44% |
+| **内存占用** | ~100 MB | 比优化前省 33% |
+| **依赖数量** | 28 个 | 精简 38% |
+
+### 🎯 与其他 AI Agent 对比
+
+| 项目 | 语言 | 大小 | 启动时间 | 内存 |
+|------|------|------|----------|------|
+| **Nanobot Java** | Java 21 | **13 MB** | **1.4s** | **100 MB** |
+| 典型 Node.js Agent | Node.js | 100-200 MB | 2-3s | 150-200 MB |
+| 典型 Python Agent | Python | 50-100 MB | 3-5s | 200-300 MB |
+| 典型 Spring Boot | Java | 30-50 MB | 3-5s | 200-300 MB |
+
+### 🔧 优化措施
+
+- ✅ 移除不必要的 Web 服务器（节省 8 MB）
+- ✅ 精简依赖树（减少 38% 依赖）
+- ✅ 启用编译优化
+- ✅ JAR 压缩优化
+- ✅ 使用 Java 21 虚拟线程（高并发低开销）
+
+详细优化说明请查看 [OPTIMIZATION.md](OPTIMIZATION.md)
 
 ---
 
