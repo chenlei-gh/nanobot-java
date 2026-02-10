@@ -2,6 +2,7 @@ package com.nanobot.bus;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
 import java.util.function.*;
 
 /**
@@ -15,6 +16,7 @@ public class EventBus {
     private final int maxLogSize;
     private volatile boolean running = false;
     private ExecutorService asyncExecutor;
+    private ScheduledExecutorService scheduledExecutor;
 
     @FunctionalInterface
     public interface EventHandler {
@@ -28,6 +30,7 @@ public class EventBus {
     public EventBus(int maxLogSize) {
         this.maxLogSize = maxLogSize;
         this.asyncExecutor = Executors.newVirtualThreadPerTaskExecutor();
+        this.scheduledExecutor = Executors.newScheduledThreadPool(1);
     }
 
     /**
@@ -43,6 +46,7 @@ public class EventBus {
     public void stop() {
         running = false;
         asyncExecutor.shutdown();
+        scheduledExecutor.shutdown();
     }
 
     /**
@@ -123,7 +127,7 @@ public class EventBus {
     public void publishDelayed(NanobotEvent.Event event, long delayMs) {
         if (!running) return;
 
-        asyncExecutor.schedule(() -> publish(event), delayMs, TimeUnit.MILLISECONDS);
+        scheduledExecutor.schedule(() -> publish(event), delayMs, TimeUnit.MILLISECONDS);
     }
 
     /**

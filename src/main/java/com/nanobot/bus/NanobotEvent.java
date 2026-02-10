@@ -1,6 +1,7 @@
 package com.nanobot.bus;
 
 import java.util.*;
+import java.io.*;
 
 /**
  * Event Types - All event types for Nanobot event system

@@ -4,8 +4,10 @@ import java.io.*;
 import java.net.*;
 import java.net.http.*;
 import java.nio.charset.*;
+import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
 
 /**
  * Telegram Channel - Telegram Bot integration
@@ -82,17 +84,17 @@ public class TelegramChannel implements Channel {
 
     private void startPolling() {
         poller = Executors.newSingleThreadScheduledExecutor();
-        long offset = 0;
+        AtomicLong offset = new AtomicLong(0);
 
         poller.scheduleAtFixedRate(() -> {
             try {
-                List<Map<String, Object>> updates = getUpdates(offset);
+                List<Map<String, Object>> updates = getUpdates(offset.get());
 
                 for (Map<String, Object> update : updates) {
                     processUpdate(update);
                     long updateId = ((Number) update.get("update_id")).longValue();
-                    if (updateId >= offset) {
-                        offset = updateId + 1;
+                    if (updateId >= offset.get()) {
+                        offset.set(updateId + 1);
                     }
                 }
             } catch (Exception e) {

@@ -95,15 +95,19 @@ public class ToolHotReload {
     private final Map<Path, Long> lastModifiedTimes = new ConcurrentHashMap<>();
 
     private void registerToolFile(Path path) {
-        String toolName = path.getFileName().toString()
-            .replace(".java", "")
-            .replace("Tool", "")
-            .toLowerCase();
+        try {
+            String toolName = path.getFileName().toString()
+                .replace(".java", "")
+                .replace("Tool", "")
+                .toLowerCase();
 
-        toolFiles.put(toolName, path);
-        lastModifiedTimes.put(path, Files.getLastModifiedTime(path).toMillis());
+            toolFiles.put(toolName, path);
+            lastModifiedTimes.put(path, Files.getLastModifiedTime(path).toMillis());
 
-        notifyToolAdded(toolName);
+            notifyToolAdded(toolName);
+        } catch (Exception e) {
+            // Ignore errors during registration
+        }
     }
 
     private void reloadTool(String toolName, Path toolPath) {

@@ -12,6 +12,33 @@ public class ToolRegistry {
     private final ConcurrentHashMap<String, ToolDescriptor> tools = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, BiFunction<Map<String, Object>, String, Object>> executors = new ConcurrentHashMap<>();
 
+    public ToolRegistry() {
+        registerDefaultTools();
+    }
+
+    private void registerDefaultTools() {
+        // Register read_file tool
+        Map<String, ToolParameter> readFileParams = new HashMap<>();
+        readFileParams.put("path", new ToolParameter("string", "Path to the file to read", true));
+        register("read_file", "Read contents of a file", readFileParams, true, FileTool::readFile);
+
+        // Register write_file tool
+        Map<String, ToolParameter> writeFileParams = new HashMap<>();
+        writeFileParams.put("path", new ToolParameter("string", "Path to the file to write", true));
+        writeFileParams.put("content", new ToolParameter("string", "Content to write to the file", true));
+        register("write_file", "Write content to a file", writeFileParams, true, FileTool::writeFile);
+
+        // Register shell tool
+        Map<String, ToolParameter> shellParams = new HashMap<>();
+        shellParams.put("command", new ToolParameter("string", "Shell command to execute", true));
+        register("shell", "Execute a shell command", shellParams, true, ShellTool::execute);
+
+        // Register web_fetch tool
+        Map<String, ToolParameter> webFetchParams = new HashMap<>();
+        webFetchParams.put("url", new ToolParameter("string", "URL to fetch", true));
+        register("web_fetch", "Fetch content from a URL", webFetchParams, false, WebTool::fetch);
+    }
+
     public static class ToolDescriptor {
         private final String name;
         private final String description;

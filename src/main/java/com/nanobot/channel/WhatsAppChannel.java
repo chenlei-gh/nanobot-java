@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.net.http.*;
 import java.nio.charset.*;
+import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -178,7 +179,7 @@ public class WhatsAppChannel implements Channel {
 
     private void processStatusUpdate(Map<String, Object> status) {
         String id = (String) status.get("id");
-        String status = (String) status.get("status");
+        String statusValue = (String) status.get("status");
 
         // Could emit events for message status changes
     }

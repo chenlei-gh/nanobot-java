@@ -2,7 +2,6 @@ package com.nanobot.core;
 
 import com.nanobot.llm.LlmProvider;
 import com.nanobot.tool.ToolRegistry;
-import com.nanobot.tool.ToolExecutor;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;

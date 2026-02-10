@@ -3,6 +3,7 @@ package com.nanobot.config;
 import org.yaml.snakeyaml.*;
 import java.io.*;
 import java.nio.file.*;
+import java.util.*;
 
 /**
  * YAML Configuration Loader
@@ -82,10 +83,12 @@ public class YamlConfigLoader {
                 agentDef.setModel(String.valueOf(agentData.getOrDefault("model", agentConfig.getDefaultsModel())));
 
                 if (agentData.containsKey("mcpServers")) {
-                    agentDef.getMcpServers().addAll((Iterable<String>) agentData.get("mcpServers"));
+                    List<String> mcpServers = (List<String>) agentData.get("mcpServers");
+                    agentDef.getMcpServers().addAll(mcpServers);
                 }
                 if (agentData.containsKey("tools")) {
-                    agentDef.getTools().addAll((Iterable<String>) agentData.get("tools"));
+                    List<String> tools = (List<String>) agentData.get("tools");
+                    agentDef.getTools().addAll(tools);
                 }
                 agentConfig.getAgents().put(entry.getKey(), agentDef);
             }

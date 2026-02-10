@@ -5,7 +5,7 @@ import com.nanobot.core.*;
 import com.nanobot.llm.*;
 import com.nanobot.tool.*;
 import com.nanobot.cron.*;
-import jline.console.*;
+import org.jline.reader.*;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
@@ -211,12 +211,10 @@ public class NanobotCli {
     }
 
     private static void runInteractive() throws Exception {
-        ConsoleReader reader = new ConsoleReader();
-
-        reader.setPrompt("nanobot> ");
+        LineReader reader = LineReaderBuilder.builder().build();
 
         String line;
-        while ((line = reader.readLine()) != null) {
+        while ((line = reader.readLine("nanobot> ")) != null) {
             line = line.trim();
 
             if (line.isEmpty()) continue;
@@ -226,15 +224,17 @@ public class NanobotCli {
             } else {
                 processMessage(line);
             }
-
-            reader.setPrompt("nanobot> ");
         }
     }
 
     private static void runAgent(String configPath) {
-        System.out.println("Running agent with config: " + configPath);
-        initialize();
-        runInteractive();
+        try {
+            System.out.println("Running agent with config: " + configPath);
+            initialize();
+            runInteractive();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
     }
 
     private static void runSingleAgent(String message) {
@@ -248,8 +248,12 @@ public class NanobotCli {
     }
 
     private static void runShell() {
-        System.out.println("Entering shell mode. Type /exit to quit.");
-        runInteractive();
+        try {
+            System.out.println("Entering shell mode. Type /exit to quit.");
+            runInteractive();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
     }
 
     private static void processMessage(String message) {

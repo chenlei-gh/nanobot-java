@@ -67,6 +67,17 @@ public class SubagentManager {
     }
 
     /**
+     * Constructor that accepts an ExecutorService for testing
+     */
+    public SubagentManager(ExecutorService executorService, String workspace) {
+        this.executor = (task, systemPrompt, model) -> {
+            // Simple mock executor for testing
+            return "Mock result for: " + task;
+        };
+        this.workspace = workspace;
+    }
+
+    /**
      * Create and start a new subagent
      */
     public String createSubagent(String task, String systemPrompt, String model) {

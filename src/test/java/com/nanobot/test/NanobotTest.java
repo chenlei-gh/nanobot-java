@@ -211,25 +211,25 @@ public class NanobotTest {
         printTest("SubagentManager - Background Tasks");
         try {
             // Create executor
-            java.util.concurrent.ExecutorService executor = 
+            java.util.concurrent.ExecutorService executor =
                 java.util.concurrent.Executors.newCachedThreadPool();
-            
+
             Object manager = Class.forName("com.nanobot.agent.SubagentManager")
                 .getDeclaredConstructor(
-                    Class.forName("com.nanobot.agent.SubagentManager$SubagentExecutor"),
+                    java.util.concurrent.ExecutorService.class,
                     String.class
                 )
                 .newInstance(executor, "/tmp/workspace");
-            
+
             Class<?> smClass = manager.getClass();
-            
+
             // Test getStats
             Object stats = smClass.getMethod("getStats").invoke(manager);
-            
+
             executor.shutdown();
-            
+
             passed("SubagentManager background tasks");
-            
+
         } catch (Exception e) {
             failed("SubagentManager", e);
         }

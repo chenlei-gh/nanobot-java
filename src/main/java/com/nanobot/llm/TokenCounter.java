@@ -36,6 +36,7 @@ public class TokenCounter {
 
         @Override
         public int countTokens(List<String> texts) {
+            if (texts == null || texts.isEmpty()) return 0;
             return texts.stream().mapToInt(this::countTokens).sum();
         }
     }
@@ -52,6 +53,7 @@ public class TokenCounter {
 
         @Override
         public int countTokens(List<String> texts) {
+            if (texts == null || texts.isEmpty()) return 0;
             return texts.stream().mapToInt(this::countTokens).sum();
         }
     }
@@ -68,6 +70,7 @@ public class TokenCounter {
 
         @Override
         public int countTokens(List<String> texts) {
+            if (texts == null || texts.isEmpty()) return 0;
             return texts.stream().mapToInt(this::countTokens).sum();
         }
     }
@@ -82,6 +85,7 @@ public class TokenCounter {
 
         @Override
         public int countTokens(List<String> texts) {
+            if (texts == null || texts.isEmpty()) return 0;
             return texts.stream().mapToInt(this::countTokens).sum();
         }
     }

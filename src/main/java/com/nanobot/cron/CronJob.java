@@ -60,9 +60,13 @@ public class CronJob {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public CronService.CronSchedule getSchedule() { return schedule; }
+    public void setSchedule(CronService.CronSchedule schedule) { this.schedule = schedule; }
     public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
     public boolean isDeliver() { return deliver; }
+    public void setDeliver(boolean deliver) { this.deliver = deliver; }
     public long getCreatedAt() { return createdAt; }
+    public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
     public long getLastRunAt() { return lastRunAt; }
     public void setLastRunAt(long lastRunAt) { this.lastRunAt = lastRunAt; }
     public boolean isEnabled() { return enabled; }
