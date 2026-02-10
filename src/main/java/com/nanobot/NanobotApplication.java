@@ -23,14 +23,15 @@ import org.springframework.context.annotation.FilterType;
 public class NanobotApplication {
 
     public static void main(String[] args) {
-        // Check if running in CLI mode (no Spring Boot web)
+        // Check if running in interactive CLI mode
         boolean cliMode = args.length > 0 && ("run".equals(args[0]) || "agent".equals(args[0]) || "shell".equals(args[0]));
 
         if (cliMode) {
-            // Run in CLI mode without Spring Boot
+            // Run in interactive CLI mode without Spring Boot container
             NanobotCli.main(args);
         } else {
-            // Run Spring Boot for web/API mode
+            // Run Spring Boot for dependency injection and component management
+            // Note: This is NOT a web server - Nanobot is a pure CLI application
             SpringApplication.run(NanobotApplication.class, args);
         }
     }
