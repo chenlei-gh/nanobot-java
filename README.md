@@ -23,6 +23,7 @@ Nanobot Java 是一个轻量级、高性能的 AI 助手，支持多种 AI 模�
 - 🚀 **一键启动** - 无需复杂配置，开箱即用
 - 🔥 **高性能** - 基于 Java 21 虚拟线程，支持高并发
 - 🪶 **超轻量** - 仅 13 MB，启动仅需 1.4 秒
+- 💾 **内存优化** - 长期运行内存稳定在 450MB，自动清理机制
 - 🤖 **多模型支持** - OpenAI、Anthropic、DeepSeek、Qwen、Gemini
 - 🛠️ **丰富工具** - 文件操作、Shell 命令、网页搜索
 - 💬 **多种交互方式** - CLI、Telegram、WhatsApp
@@ -62,13 +63,13 @@ git clone https://github.com/chenlei-gh/nanobot-java.git
 cd nanobot-java
 ```
 
-#### 2. 运行设置向导
+#### 2. 设置 API 密钥
 ```bash
-# Linux/Mac
-./setup.sh
+# 设置 OpenAI API Key
+export OPENAI_API_KEY=sk-your-key-here
 
-# Windows
-setup.bat
+# 或设置 Anthropic API Key
+export ANTHROPIC_API_KEY=sk-ant-your-key-here
 ```
 
 #### 3. 启动 Nanobot
@@ -346,7 +347,7 @@ Nanobot Java 经过深度优化，在保持完整功能的同时实现了极致�
 - ✅ JAR 压缩优化
 - ✅ 使用 Java 21 虚拟线程（高并发低开销）
 
-详细优化说明请查看 [OPTIMIZATION.md](OPTIMIZATION.md)
+详细优化说明请查看 [MEMORY_OPTIMIZATION.md](MEMORY_OPTIMIZATION.md)
 
 ---
 

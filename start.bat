@@ -67,13 +67,21 @@ echo 🚀 启动 Nanobot...
 echo ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 echo.
 
+REM JVM 内存优化参数
+set JVM_OPTS=-Xms256m -Xmx512m
+set JVM_OPTS=%JVM_OPTS% -XX:+UseZGC
+set JVM_OPTS=%JVM_OPTS% -XX:+ZGenerational
+set JVM_OPTS=%JVM_OPTS% -XX:MaxGCPauseMillis=50
+set JVM_OPTS=%JVM_OPTS% -XX:+UseStringDeduplication
+set JVM_OPTS=%JVM_OPTS% -XX:+OptimizeStringConcat
+
 REM 检查是否有参数
 if "%~1"=="" (
     REM 交互模式
-    java -jar target\nanobot-1.0.0.jar
+    java %JVM_OPTS% -jar target\nanobot-1.0.0.jar
 ) else (
     REM 命令模式
-    java -jar target\nanobot-1.0.0.jar %*
+    java %JVM_OPTS% -jar target\nanobot-1.0.0.jar %*
 )
 
 pause

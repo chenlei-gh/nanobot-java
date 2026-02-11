@@ -12,6 +12,8 @@ public class ContextManager {
     private final ConcurrentHashMap<String, List<ContextMessage>> sessions = new ConcurrentHashMap<>();
     private final int maxMessagesPerSession;
     private final int maxTokensPerSession;
+    private final ScheduledExecutorService cleanupExecutor;
+    private volatile boolean running = false;
 
     public ContextManager() {
         this(50, 8000); // Default: 50 messages, 8000 tokens
@@ -20,6 +22,28 @@ public class ContextManager {
     public ContextManager(int maxMessagesPerSession, int maxTokensPerSession) {
         this.maxMessagesPerSession = maxMessagesPerSession;
         this.maxTokensPerSession = maxTokensPerSession;
+        this.cleanupExecutor = Executors.newScheduledThreadPool(1);
+        startAutoCleanup();
+    }
+
+    /**
+     * Start automatic cleanup of old sessions
+     */
+    private void startAutoCleanup() {
+        running = true;
+        // Cleanup sessions older than 1 hour every 10 minutes
+        cleanupExecutor.scheduleAtFixedRate(
+            () -> cleanupOldSessions(TimeUnit.HOURS.toMillis(1)),
+            10, 10, TimeUnit.MINUTES
+        );
+    }
+
+    /**
+     * Stop the context manager and cleanup executor
+     */
+    public void stop() {
+        running = false;
+        cleanupExecutor.shutdown();
     }
 
     public static class ContextMessage {

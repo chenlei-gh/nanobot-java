@@ -69,11 +69,19 @@ echo "🚀 启动 Nanobot..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
+# JVM 内存优化参数
+JVM_OPTS="-Xms256m -Xmx512m"
+JVM_OPTS="$JVM_OPTS -XX:+UseZGC"
+JVM_OPTS="$JVM_OPTS -XX:+ZGenerational"
+JVM_OPTS="$JVM_OPTS -XX:MaxGCPauseMillis=50"
+JVM_OPTS="$JVM_OPTS -XX:+UseStringDeduplication"
+JVM_OPTS="$JVM_OPTS -XX:+OptimizeStringConcat"
+
 # 检查是否有参数
 if [ $# -eq 0 ]; then
     # 交互模式
-    java -jar target/nanobot-1.0.0.jar
+    java $JVM_OPTS -jar target/nanobot-1.0.0.jar
 else
     # 命令模式
-    java -jar target/nanobot-1.0.0.jar "$@"
+    java $JVM_OPTS -jar target/nanobot-1.0.0.jar "$@"
 fi

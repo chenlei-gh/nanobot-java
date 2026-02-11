@@ -12,6 +12,8 @@ public class SubagentManager {
     private final SubagentExecutor executor;
     private final String workspace;
     private int subagentCounter = 0;
+    private final ScheduledExecutorService cleanupExecutor;
+    private volatile boolean running = false;
 
     public interface SubagentExecutor {
         String execute(String task, String systemPrompt, String model);
@@ -64,6 +66,8 @@ public class SubagentManager {
     public SubagentManager(SubagentExecutor executor, String workspace) {
         this.executor = executor;
         this.workspace = workspace;
+        this.cleanupExecutor = Executors.newScheduledThreadPool(1);
+        startAutoCleanup();
     }
 
     /**
@@ -75,6 +79,28 @@ public class SubagentManager {
             return "Mock result for: " + task;
         };
         this.workspace = workspace;
+        this.cleanupExecutor = Executors.newScheduledThreadPool(1);
+        startAutoCleanup();
+    }
+
+    /**
+     * Start automatic cleanup of old subagents
+     */
+    private void startAutoCleanup() {
+        running = true;
+        // Cleanup completed subagents older than 10 minutes every 5 minutes
+        cleanupExecutor.scheduleAtFixedRate(
+            () -> cleanup(TimeUnit.MINUTES.toMillis(10)),
+            5, 5, TimeUnit.MINUTES
+        );
+    }
+
+    /**
+     * Stop the subagent manager and cleanup executor
+     */
+    public void stop() {
+        running = false;
+        cleanupExecutor.shutdown();
     }
 
     /**

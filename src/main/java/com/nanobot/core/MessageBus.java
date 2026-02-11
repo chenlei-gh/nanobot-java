@@ -9,9 +9,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * Optimized for high-concurrency with virtual threads
  */
 public class MessageBus {
+    private static final int MAX_QUEUE_SIZE = 10000; // Prevent unbounded queue growth
     private final ConcurrentHashMap<String, Set<MessageHandler>> subscriptions = new ConcurrentHashMap<>();
-    private final BlockingQueue<Message> inboundQueue = new LinkedBlockingQueue<>();
-    private final BlockingQueue<Message> outboundQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Message> inboundQueue = new LinkedBlockingQueue<>(MAX_QUEUE_SIZE);
+    private final BlockingQueue<Message> outboundQueue = new LinkedBlockingQueue<>(MAX_QUEUE_SIZE);
     private final AtomicLong messageCounter = new AtomicLong(0);
     private volatile boolean running = false;
     private ExecutorService virtualThreadPool;
@@ -99,7 +100,11 @@ public class MessageBus {
      */
     public void publishInbound(String channel, String senderId, String chatId, String content) {
         Message msg = new Message(channel, senderId, chatId, content, MessageType.INBOUND);
-        inboundQueue.offer(msg);
+        if (!inboundQueue.offer(msg)) {
+            // Queue is full, log warning and drop oldest message
+            inboundQueue.poll();
+            inboundQueue.offer(msg);
+        }
     }
 
     /**
@@ -107,7 +112,11 @@ public class MessageBus {
      */
     public void publishOutbound(String channel, String senderId, String chatId, String content) {
         Message msg = new Message(channel, senderId, chatId, content, MessageType.OUTBOUND);
-        outboundQueue.offer(msg);
+        if (!outboundQueue.offer(msg)) {
+            // Queue is full, log warning and drop oldest message
+            outboundQueue.poll();
+            outboundQueue.offer(msg);
+        }
     }
 
     /**

@@ -17,6 +17,7 @@ public class EventBus {
     private volatile boolean running = false;
     private ExecutorService asyncExecutor;
     private ScheduledExecutorService scheduledExecutor;
+    private ScheduledExecutorService cleanupExecutor;
 
     @FunctionalInterface
     public interface EventHandler {
@@ -31,6 +32,7 @@ public class EventBus {
         this.maxLogSize = maxLogSize;
         this.asyncExecutor = Executors.newVirtualThreadPerTaskExecutor();
         this.scheduledExecutor = Executors.newScheduledThreadPool(1);
+        this.cleanupExecutor = Executors.newScheduledThreadPool(1);
     }
 
     /**
@@ -38,6 +40,11 @@ public class EventBus {
      */
     public void start() {
         running = true;
+        // Schedule periodic cleanup of old events (every 5 minutes)
+        cleanupExecutor.scheduleAtFixedRate(
+            this::cleanupOldEvents,
+            5, 5, TimeUnit.MINUTES
+        );
     }
 
     /**
@@ -47,6 +54,7 @@ public class EventBus {
         running = false;
         asyncExecutor.shutdown();
         scheduledExecutor.shutdown();
+        cleanupExecutor.shutdown();
     }
 
     /**
@@ -280,5 +288,13 @@ public class EventBus {
         while (eventLog.size() > maxLogSize) {
             eventLog.poll();
         }
+    }
+
+    /**
+     * Cleanup old events (older than 1 hour)
+     */
+    private void cleanupOldEvents() {
+        long cutoffTime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1);
+        eventLog.removeIf(event -> event.getTimestamp() < cutoffTime);
     }
 }
