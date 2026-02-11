@@ -209,46 +209,83 @@ data: ~/.nanobot/data            # 数据目录
 
 ---
 
-## 📊 监控面板
+## 🌐 Web 界面
 
-Nanobot 内置了轻量级的 Web 监控面板，可以实时查看运行状态。
+Nanobot 提供完整的 Web 界面，包含 AI 对话、参数配置和实时监控功能。
 
-### 启动监控
-
-启动 Nanobot 后，监控面板会自动启动：
+### 启动 Web 服务
 
 ```bash
-./start.sh
-# 📊 监控服务已启动: http://localhost:8080
+./start-web.sh
 ```
 
-### 访问监控面板
+或者手动启动：
+
+```bash
+export OPENAI_API_KEY=sk-your-key-here
+java -cp "target/classes:target/nanobot-1.0.0.jar" com.nanobot.web.WebServerTest
+```
+
+### 访问 Web 界面
 
 在浏览器中打开：
 ```
-http://localhost:8080
+http://localhost:9090
 ```
 
-### 监控功能
+**Codespaces 用户**: 在 VS Code 的 "PORTS" 标签页中找到端口 9090，点击地球图标获取公开 URL。
 
-- 📈 **实时内存监控** - 查看内存使用情况和趋势
-- 📊 **系统统计** - 消息队列、事件总线、会话数量
-- 🔄 **自动刷新** - 每 3 秒自动更新数据
-- 🎨 **美观界面** - 现代化的渐变设计
+### 功能特性
+
+#### 💬 AI 对话界面
+- 实时对话交互
+- 流式响应显示
+- 多会话管理
+- 历史记录查看
+
+#### ⚙️ 参数配置
+- 模型选择（GPT-4, Claude, DeepSeek 等）
+- 温度参数调节
+- 最大迭代次数设置
+- 工具启用/禁用
+
+#### 📊 实时监控
+- 内存使用情况
+- 会话统计
+- 消息队列状态
+- 系统健康检查
+
+#### 🎨 现代化界面
+- 响应式设计
+- 渐变色主题
+- 流畅动画
+- 移动端适配
 
 ### 自定义端口
 
-通过环境变量设置监控端口：
+通过环境变量设置 Web 端口：
 
 ```bash
-export MONITOR_PORT=9090
-./start.sh
+export WEB_PORT=8080
+./start-web.sh
 ```
 
 ### API 接口
 
-- `GET /` - 监控面板 HTML
-- `GET /api/stats` - 获取统计数据 JSON
+#### 对话接口
+- `POST /api/chat` - 发送消息并获取 AI 响应
+- `GET /api/stream` - SSE 流式响应
+
+#### 会话管理
+- `GET /api/sessions` - 获取所有会话列表
+- `DELETE /api/sessions?sessionId=xxx` - 清除指定会话
+
+#### 配置管理
+- `GET /api/config` - 获取当前配置
+- `GET /api/tools` - 获取可用工具列表
+
+#### 监控接口
+- `GET /api/stats` - 获取系统统计数据
 - `GET /api/health` - 健康检查
 
 ---
