@@ -24,6 +24,7 @@ Nanobot Java 是一个轻量级、高性能的 AI 助手，支持多种 AI 模�
 - 🔥 **高性能** - 基于 Java 21 虚拟线程，支持高并发
 - 🪶 **超轻量** - 仅 13 MB，启动仅需 1.4 秒
 - 💾 **内存优化** - 长期运行内存稳定在 450MB，自动清理机制
+- 📊 **实时监控** - 内置 Web 监控面板，实时查看运行状态和内存使用
 - 🤖 **多模型支持** - OpenAI、Anthropic、DeepSeek、Qwen、Gemini
 - 🛠️ **丰富工具** - 文件操作、Shell 命令、网页搜索
 - 💬 **多种交互方式** - CLI、Telegram、WhatsApp
@@ -205,6 +206,50 @@ data: ~/.nanobot/data            # 数据目录
 | `OPENAI_API_KEY` | OpenAI API 密钥 | 二选一 |
 | `ANTHROPIC_API_KEY` | Anthropic API 密钥 | 二选一 |
 | `BRAVE_SEARCH_API_KEY` | Brave 搜索 API 密钥 | 可选 |
+
+---
+
+## 📊 监控面板
+
+Nanobot 内置了轻量级的 Web 监控面板，可以实时查看运行状态。
+
+### 启动监控
+
+启动 Nanobot 后，监控面板会自动启动：
+
+```bash
+./start.sh
+# 📊 监控服务已启动: http://localhost:8080
+```
+
+### 访问监控面板
+
+在浏览器中打开：
+```
+http://localhost:8080
+```
+
+### 监控功能
+
+- 📈 **实时内存监控** - 查看内存使用情况和趋势
+- 📊 **系统统计** - 消息队列、事件总线、会话数量
+- 🔄 **自动刷新** - 每 3 秒自动更新数据
+- 🎨 **美观界面** - 现代化的渐变设计
+
+### 自定义端口
+
+通过环境变量设置监控端口：
+
+```bash
+export MONITOR_PORT=9090
+./start.sh
+```
+
+### API 接口
+
+- `GET /` - 监控面板 HTML
+- `GET /api/stats` - 获取统计数据 JSON
+- `GET /api/health` - 健康检查
 
 ---
 

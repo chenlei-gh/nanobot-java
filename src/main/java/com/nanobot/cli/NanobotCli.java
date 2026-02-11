@@ -5,6 +5,7 @@ import com.nanobot.core.*;
 import com.nanobot.llm.*;
 import com.nanobot.tool.*;
 import com.nanobot.cron.*;
+import com.nanobot.monitor.MonitorServer;
 import org.jline.reader.*;
 import java.io.*;
 import java.nio.file.*;
@@ -22,6 +23,7 @@ public class NanobotCli {
     private static ToolRegistry toolRegistry;
     private static AgentLoop agentLoop;
     private static CronService cronService;
+    private static MonitorServer monitorServer;
 
     public static void main(String[] args) {
         System.out.println("Nanobot v" + VERSION + " - AI Agent (Java 21)");
@@ -93,6 +95,15 @@ public class NanobotCli {
         messageBus.start();
         agentLoop.start();
         cronService.start();
+
+        // Start monitoring server
+        try {
+            int monitorPort = Integer.parseInt(System.getenv().getOrDefault("MONITOR_PORT", "8080"));
+            monitorServer = new MonitorServer(monitorPort, messageBus, contextManager, null, null);
+            monitorServer.start();
+        } catch (Exception e) {
+            System.err.println("⚠️  监控服务启动失败: " + e.getMessage());
+        }
     }
 
     private static NanobotConfig loadConfig() {
@@ -274,6 +285,9 @@ public class NanobotCli {
             case "/help" -> printHelp();
             case "/exit", "/quit" -> {
                 System.out.println("Goodbye!");
+                if (monitorServer != null) {
+                    monitorServer.stop();
+                }
                 System.exit(0);
             }
             case "/clear" -> {
